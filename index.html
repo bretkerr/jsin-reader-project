@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SignalScholar Timeline</title>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.1/papaparse.min.js"></script>
+</head>
+<body>
+  <h1>📈 SignalScholar Ledger</h1>
+  <input type="file" id="upload" accept=".csv" />
+  <table id="output" border="1" style="width:100%; margin-top: 20px;"></table>
+
+  <script>
+    document.getElementById('upload').addEventListener('change', function (e) {
+      Papa.parse(e.target.files[0], {
+        header: true,
+        complete: function(results) {
+          const table = document.getElementById('output');
+          const data = results.data;
+          let html = "<tr><th>chunk</th><th>role</th><th>tags</th><th>preview</th><th>text_len</th></tr>";
+          data.forEach(row => {
+            html += `<tr><td>${row.chunk}</td><td>${row.role}</td><td>${row.tags}</td><td>${row.preview}</td><td>${row.text_len}</td></tr>`;
+          });
+          table.innerHTML = html;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
